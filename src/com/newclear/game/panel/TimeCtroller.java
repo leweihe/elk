@@ -1,4 +1,4 @@
-package com.newclear.game.frame;
+package com.newclear.game.panel;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -6,14 +6,14 @@ import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.JProgressBar;
 
-public class TimeCtrl extends Thread {
+public class TimeCtroller extends Thread {
 	private Thread thread;
 	private static JProgressBar timeProgressBar;
 
 	private int i;
 	public boolean b;
 
-	public TimeCtrl() {
+	public TimeCtroller() {
 		getTimeProgressBar();
 	}
 
@@ -39,18 +39,18 @@ public class TimeCtrl extends Thread {
 
 			public void run() {
 
-				for (int i = TimeCtrl.timeProgressBar.getValue(); i >= TimeCtrl.timeProgressBar.getMinimum(); i--) {
+				for (int i = TimeCtroller.timeProgressBar.getValue(); i >= TimeCtroller.timeProgressBar.getMinimum(); i--) {
 					try {
 						Thread.sleep(1000L);
-						TimeCtrl.timeProgressBar.setValue(i);
-						double p = TimeCtrl.timeProgressBar.getPercentComplete();
+						TimeCtroller.timeProgressBar.setValue(i);
+						double p = TimeCtroller.timeProgressBar.getPercentComplete();
 						String s = "剩余" + Math.round(p * 120.0D) + "秒";
-						TimeCtrl.timeProgressBar.setStringPainted(true);
-						TimeCtrl.timeProgressBar.setString(s);
+						TimeCtroller.timeProgressBar.setStringPainted(true);
+						TimeCtroller.timeProgressBar.setString(s);
 						if (i == 0) {
-							TimeCtrl.this.b = true;
-							TimeCtrl.timeProgressBar.setName("over");
-							TimeCtrl.timeProgressBar.setString("游戏结束");
+							TimeCtroller.this.b = true;
+							TimeCtroller.timeProgressBar.setName("over");
+							TimeCtroller.timeProgressBar.setString("游戏结束");
 						}
 
 					} catch (Exception localException) {

@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class About extends JFrame {
+public class AboutFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel jContentPane = null;
 	private JPanel jPanel = null;
@@ -21,7 +21,7 @@ public class About extends JFrame {
 	private JLabel jLabel2 = null;
 	private JButton jButton = null;
 
-	public About() {
+	public AboutFrame() {
 		initialize();
 	}
 
@@ -102,7 +102,7 @@ public class About extends JFrame {
 			this.jButton.setVisible(true);
 			this.jButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					About.this.dispose();
+					AboutFrame.this.dispose();
 				}
 			});
 		}

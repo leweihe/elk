@@ -21,6 +21,7 @@ import javax.swing.KeyStroke;
 
 import com.newclear.game.object.Flag;
 import com.newclear.game.panel.CenterPanel;
+import com.newclear.game.panel.TimeCtroller;
 
 public class MainFrame extends javax.swing.JFrame {
 	private static final long serialVersionUID = 1L;
@@ -354,7 +355,7 @@ public class MainFrame extends javax.swing.JFrame {
 			this.jContentPane.add(getCenterPanel(), "Center");
 			this.jContentPane.add(this.centerPanel.getElkMainPanel().getSouthPanel(), "South");
 
-			TimeCtrl.getTimeProgressBar().addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+			TimeCtroller.getTimeProgressBar().addPropertyChangeListener(new java.beans.PropertyChangeListener() {
 				public void propertyChange(PropertyChangeEvent e) {
 					MainFrame.this.timeOver(e);
 				}
@@ -477,7 +478,7 @@ public class MainFrame extends javax.swing.JFrame {
 			this.aboutMenuItem.setFont(new Font("微软雅黑", 0, 14));
 			this.aboutMenuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					About about = new About();
+					AboutFrame about = new AboutFrame();
 					about.setVisible(true);
 				}
 			});
@@ -641,7 +642,7 @@ public class MainFrame extends javax.swing.JFrame {
 
 				this.score =
 
-				(TimeCtrl.getTimeProgressBar().getValue()
+				(TimeCtroller.getTimeProgressBar().getValue()
 						+ this.centerPanel.getElkMainPanel().getF().countHowManyLast() * 13 + this.score);
 				if (this.centerPanel.getElkMainPanel().getMission() != this.maxMission) {
 					getRestartMenuItem().setText("进入下一关");
@@ -673,7 +674,7 @@ public class MainFrame extends javax.swing.JFrame {
 		try {
 			this.score =
 
-			(TimeCtrl.getTimeProgressBar().getValue()
+			(TimeCtroller.getTimeProgressBar().getValue()
 					+ this.centerPanel.getElkMainPanel().getF().countHowManyLast() * 13 + this.score);
 			String name = JOptionPane.showInputDialog(null, "您 的 分数 是 " + this.score + ",请输入姓名", "提示", 1);
 			if ((name != null) && (name != "")) {
@@ -709,7 +710,7 @@ public class MainFrame extends javax.swing.JFrame {
 				this.choiceMenu.setEnabled(false);
 				this.score =
 
-				(TimeCtrl.getTimeProgressBar().getValue()
+				(TimeCtroller.getTimeProgressBar().getValue()
 						+ this.centerPanel.getElkMainPanel().getF().countHowManyLast() * 13 + this.score);
 				String name = JOptionPane.showInputDialog(null, "您 的 分数 是 " + this.score + ",请输入姓名", "提示", 1);
 				if ((name != null) && (name != "")) {
@@ -720,7 +721,7 @@ public class MainFrame extends javax.swing.JFrame {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			TimeCtrl.getTimeProgressBar().setName("begin");
+			TimeCtroller.getTimeProgressBar().setName("begin");
 			MenuFrame list = new MenuFrame();
 			list.setVisible(true);
 			CardLayout card = (CardLayout) this.centerPanel.getLayout();

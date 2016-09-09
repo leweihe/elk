@@ -16,7 +16,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import com.newclear.game.frame.ConnectionOrcl;
-import com.newclear.game.frame.TimeCtrl;
 import com.newclear.game.object.Flag;
 
 public class ElkMainPanel extends JPanel {
@@ -33,7 +32,7 @@ public class ElkMainPanel extends JPanel {
 	private SouthPanel southPanel = null;
 
 	private int mission;
-	private TimeCtrl timeCtrl = new TimeCtrl();
+	private TimeCtroller timeCtrl = new TimeCtroller();
 
 	public Flag getF() {
 		return this.f;
@@ -283,15 +282,15 @@ public class ElkMainPanel extends JPanel {
 		this.timeCtrl.stopButton();
 		this.timeCtrl.stopThread();
 		this.f = null;
-		TimeCtrl.getTimeProgressBar().setEnabled(false);
-		TimeCtrl.getTimeProgressBar().setValue(120);
+		TimeCtroller.getTimeProgressBar().setEnabled(false);
+		TimeCtroller.getTimeProgressBar().setValue(120);
 	}
 
-	public TimeCtrl getTimeCtrl() {
+	public TimeCtroller getTimeCtrl() {
 		return timeCtrl;
 	}
 
-	public void setTimeCtrl(TimeCtrl timeCtrl) {
+	public void setTimeCtrl(TimeCtroller timeCtrl) {
 		this.timeCtrl = timeCtrl;
 	}
 	
