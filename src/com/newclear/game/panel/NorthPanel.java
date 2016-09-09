@@ -1,4 +1,4 @@
-package myframe;
+package com.newclear.game.panel;
 
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;

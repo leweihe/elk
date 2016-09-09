@@ -1,4 +1,4 @@
-package myframe;
+package com.newclear.game.object;
 
 import java.awt.Image;
 import java.awt.Point;

@@ -1,4 +1,4 @@
-package myframe;
+package com.newclear.game.frame;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,7 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class List extends JFrame {
+public class MenuFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel jContentPane = null;
 	private JButton deleteButton = null;
@@ -29,7 +29,7 @@ public class List extends JFrame {
 	private JPanel jPanel = null;
 	private JScrollPane jScrollPane = null;
 
-	public List() {
+	public MenuFrame() {
 		initialize();
 	}
 
@@ -97,8 +97,8 @@ public class List extends JFrame {
 						int sel = JOptionPane.showConfirmDialog(null, "确认清除记录", "提示", 0);
 						switch (sel) {
 						case 0:
-							List.this.delete();
-							List.this.select();
+							MenuFrame.this.delete();
+							MenuFrame.this.select();
 						}
 
 					} catch (SQLException e1) {
@@ -120,7 +120,7 @@ public class List extends JFrame {
 			this.closeButton.setText("关闭");
 			this.closeButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					List.this.dispose();
+					MenuFrame.this.dispose();
 				}
 			});
 		}

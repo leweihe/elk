@@ -1,4 +1,4 @@
-package myframe;
+package com.newclear.game.frame;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

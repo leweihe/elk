@@ -1,7 +1,9 @@
 package com.newclear.game.frame;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -66,19 +68,22 @@ public class About extends JFrame {
 			gridBagConstraints.ipadx = 8;
 			gridBagConstraints.gridx = 0;
 			this.jLabel2 = new JLabel();
+			this.jLabel2.setFont(new Font("微软雅黑", 0, 14));
 			this.jLabel2.setText("2011年");
 			this.jLabel2.setHorizontalTextPosition(0);
 			this.jLabel2.setHorizontalAlignment(0);
 			this.jLabel1 = new JLabel();
+			this.jLabel1.setFont(new Font("微软雅黑", 0, 14));
 			this.jLabel1.setText(" 作者：核辐射");
 			this.jLabel1.setHorizontalTextPosition(0);
 			this.jLabel1.setHorizontalAlignment(0);
 			this.jLabel = new JLabel();
-			this.jLabel.setText(" 连连看    版本1.0");
+			this.jLabel.setFont(new Font("微软雅黑", 0, 14));
+			this.jLabel.setText(" 连连看    版本2.41a");
 			this.jLabel.setHorizontalTextPosition(0);
 			this.jLabel.setHorizontalAlignment(0);
 			this.jPanel = new JPanel();
-			this.jPanel.setLayout(new java.awt.GridBagLayout());
+			this.jPanel.setLayout(new GridBagLayout());
 			this.jPanel.add(this.jLabel, gridBagConstraints);
 			this.jPanel.add(this.jLabel1, gridBagConstraints1);
 			this.jPanel.add(this.jLabel2, gridBagConstraints2);
@@ -90,6 +95,7 @@ public class About extends JFrame {
 	private JButton getJButton() {
 		if (this.jButton == null) {
 			this.jButton = new JButton();
+			this.jButton.setFont(new Font("微软雅黑", 0, 14));
 			this.jButton.setText("确定");
 			this.jButton.setHorizontalTextPosition(0);
 			this.jButton.setSelected(false);

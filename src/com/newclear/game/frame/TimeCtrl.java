@@ -1,4 +1,4 @@
-package myframe;
+package com.newclear.game.frame;
 
 import java.awt.Color;
 import java.awt.Dimension;

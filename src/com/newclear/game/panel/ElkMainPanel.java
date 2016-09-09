@@ -1,4 +1,4 @@
-package myframe;
+package com.newclear.game.panel;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -15,10 +15,14 @@ import java.sql.SQLException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class MyJComponent extends JPanel {
+import com.newclear.game.frame.ConnectionOrcl;
+import com.newclear.game.frame.TimeCtrl;
+import com.newclear.game.object.Flag;
+
+public class ElkMainPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static final String PLAYBACKGROUND = "/flags/background.jpg";
-	
+
 	private Graphics2D g2d;
 	private Point p1 = new Point(0, 0);
 	private Point p2 = new Point(0, 0);
@@ -29,7 +33,7 @@ public class MyJComponent extends JPanel {
 	private SouthPanel southPanel = null;
 
 	private int mission;
-	TimeCtrl timeCtrl = new TimeCtrl();
+	private TimeCtrl timeCtrl = new TimeCtrl();
 
 	public Flag getF() {
 		return this.f;
@@ -43,7 +47,7 @@ public class MyJComponent extends JPanel {
 		return this.southPanel;
 	}
 
-	public MyJComponent() {
+	public ElkMainPanel() {
 		initialize();
 	}
 
@@ -282,4 +286,13 @@ public class MyJComponent extends JPanel {
 		TimeCtrl.getTimeProgressBar().setEnabled(false);
 		TimeCtrl.getTimeProgressBar().setValue(120);
 	}
+
+	public TimeCtrl getTimeCtrl() {
+		return timeCtrl;
+	}
+
+	public void setTimeCtrl(TimeCtrl timeCtrl) {
+		this.timeCtrl = timeCtrl;
+	}
+	
 }

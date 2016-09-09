@@ -1,8 +1,10 @@
-package myframe;
+package com.newclear.game.panel;
 
 import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
+
+import com.newclear.game.frame.TimeCtrl;
 
 public class SouthPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
