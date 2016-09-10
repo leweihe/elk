@@ -12,6 +12,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import com.newclear.game.container.ElkContainer;
 import com.newclear.game.exception.ClickOutOfBoardException;
 import com.newclear.game.object.Flag;
 
@@ -26,7 +27,7 @@ public class ElkMainPanel extends JPanel {
 	private Point p22 = new Point(0, 0);
 	private Flag f = new Flag();
 	private int[][] array = this.f.RandomArr();
-	private SouthPanel southPanel = null;
+	private SouthPanel southPanel;
 
 	private int mission;
 	private TimeCtroller timeCtrl = new TimeCtroller();
@@ -65,13 +66,12 @@ public class ElkMainPanel extends JPanel {
 			drawMap(g);
 			drawline(g);
 			drawSqual(g, p);
-			if (Flag.bool) {
-				drawR(g);
+			if (f.isPromptflag()) {
+				drawPromptBox(g);
 				repaint();
 			}
 		} catch (IOException | ClickOutOfBoardException e1) {
 			e1.printStackTrace();
-			// TODO add log
 		}
 	}
 
@@ -83,8 +83,8 @@ public class ElkMainPanel extends JPanel {
 		this.mission = mission;
 	}
 
-	private void drawR(Graphics g) throws ClickOutOfBoardException {
-		if (this.f.cue()) {
+	private void drawPromptBox(Graphics g) throws ClickOutOfBoardException {
+		if (this.f.hasSolution()) {
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setPaint(Color.red);
 			g2d.drawRect(f.getP11().x * 50 + 50, f.getP11().y * 50 + 50, 48, 48);
@@ -155,13 +155,13 @@ public class ElkMainPanel extends JPanel {
 
 	private boolean drawSqual(Graphics g, Point p1) {
 		Graphics2D g2d = (Graphics2D) g;
-		g.setFont(new Font("幼圆", 1, 22));
+		g.setFont(new Font(ElkContainer.FONT_STYLE, 1, 22));
 		String drawStr = "AMANI NAKUPENDA NAKUPENDA WE WE";
 		g.drawString(drawStr, 50, 50);
-		if (this.f.getWhichMission() != null) {
-			g.setFont(new Font("微软雅黑", 0, 14));
+		if (this.f.getMissionNum() != null) {
+			g.setFont(new Font(ElkContainer.FONT_STYLE, 0, 14));
 			if (this.mission != 0) {
-				String drawMission = "这是您的第" + this.mission + "关 ,是" + this.f.getWhichMission() + "飞的!";
+				String drawMission = "这是您的第" + this.mission + "关 ,是" + this.f.getMissionNum() + "飞的!";
 				g.drawString(drawMission, 90, 90);
 			} else {
 				String drawMission = "这是第" + this.mission + "关 ,是最难的一关!";
@@ -179,7 +179,7 @@ public class ElkMainPanel extends JPanel {
 			return false;
 		}
 
-		g2d.setPaint(Color.ORANGE);
+		g2d.setPaint(Color.PINK);
 		g.drawRect(p1.x * 50 + 50, p1.y * 50 + 50, 48, 48);
 		return true;
 	}
@@ -213,7 +213,7 @@ public class ElkMainPanel extends JPanel {
 						if (this.f.remove(this.p1, this.p2,
 								(this.f.isMathced(this.p1, this.p2)) && (this.array[this.p1.y][this.p1.x] != 0)
 										&& (this.array[this.p2.y][this.p2.x] != 0))) {
-							Flag.bool = false;
+							f.setPromptflag(false);
 
 							this.p22.x = this.p2.x;
 							this.p22.y = this.p2.y;
@@ -232,6 +232,11 @@ public class ElkMainPanel extends JPanel {
 
 	public void reList() {
 		this.f.setArray(this.f.reList(this.array));
+		repaint();
+	}
+
+	public void prompt() {
+		this.f.setPromptflag(true);
 		repaint();
 	}
 

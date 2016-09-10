@@ -25,26 +25,24 @@ import com.newclear.game.panel.CenterPanel;
 import com.newclear.game.panel.TimeCtroller;
 
 public class MainFrame extends javax.swing.JFrame {
-	private static final long serialVersionUID = 1L;
-	private JPanel jContentPane = null;
-	private JMenuBar mainMenu = null;
-	private JMenu choiceMenu = null;
-	private JMenu menuGanme = null;
-	private JMenu helpMenu = null;
-	private JMenuItem continueMenuItem = null;
-	private JMenuItem stopMenuItem = null;
-	private JMenuItem quitMenuItem = null;
-	private JMenuItem helpMenuItem = null;
-	private JMenuItem listMenuItem = null;
-	private JMenuItem explainMenuItem = null;
-	private JMenuItem aboutMenuItem = null;
-	private CenterPanel centerPanel = null;
-	private JMenuItem reListMenuItem = null;
-	private JMenuItem easyMenuItem = null;
-	private JMenuItem middleMenuItem = null;
-	private JMenuItem hardMenuItem = null;
-	private JMenuItem restartMenuItem = null;
+	private static final long serialVersionUID = -8273937878294201119L;
+
+	private JPanel jContentPane;
+	private JMenuBar mainMenu;
+	private JMenu menuGanme;
+	private JMenu choiceMenu;
+	private JMenuItem continueMenuItem;
+	private JMenuItem stopMenuItem;
+	private JMenuItem quitMenuItem;
+	private JMenuItem promptMenuItem;
+	private JMenuItem reListMenuItem;
+	private JMenuItem easyMenuItem;
+	private JMenuItem middleMenuItem;
+	private JMenuItem hardMenuItem;
+	private JMenuItem restartMenuItem;
 	private JMenuItem giveUpMenuItem;
+
+	private CenterPanel centerPanel;
 	private int score;
 	private int maxMission;
 
@@ -95,7 +93,7 @@ public class MainFrame extends javax.swing.JFrame {
 					MainFrame.this.choiceMenu.setEnabled(true);
 					MainFrame.this.giveUpMenuItem.setEnabled(true);
 					MainFrame.this.restartMenuItem.setEnabled(true);
-					MainFrame.this.listMenuItem.setEnabled(true);
+					MainFrame.this.reListMenuItem.setEnabled(true);
 					MainFrame.this.easyMenuItem.setEnabled(false);
 					MainFrame.this.middleMenuItem.setEnabled(false);
 					MainFrame.this.hardMenuItem.setEnabled(false);
@@ -119,7 +117,7 @@ public class MainFrame extends javax.swing.JFrame {
 					MainFrame.this.giveUpMenuItem.setEnabled(true);
 					MainFrame.this.choiceMenu.setEnabled(true);
 					MainFrame.this.restartMenuItem.setEnabled(true);
-					MainFrame.this.listMenuItem.setEnabled(true);
+					MainFrame.this.reListMenuItem.setEnabled(true);
 					MainFrame.this.easyMenuItem.setEnabled(false);
 					MainFrame.this.middleMenuItem.setEnabled(false);
 					MainFrame.this.hardMenuItem.setEnabled(false);
@@ -143,7 +141,7 @@ public class MainFrame extends javax.swing.JFrame {
 					MainFrame.this.choiceMenu.setEnabled(true);
 					MainFrame.this.restartMenuItem.setEnabled(true);
 					MainFrame.this.giveUpMenuItem.setEnabled(true);
-					MainFrame.this.listMenuItem.setEnabled(true);
+					MainFrame.this.reListMenuItem.setEnabled(true);
 					MainFrame.this.easyMenuItem.setEnabled(false);
 					MainFrame.this.middleMenuItem.setEnabled(false);
 					MainFrame.this.hardMenuItem.setEnabled(false);
@@ -224,7 +222,6 @@ public class MainFrame extends javax.swing.JFrame {
 				}
 			});
 		}
-
 		return this.mainMenu;
 	}
 
@@ -293,12 +290,12 @@ public class MainFrame extends javax.swing.JFrame {
 	private JMenuItem getRestartMenuItem() {
 		if (this.restartMenuItem == null) {
 			this.restartMenuItem = new JMenuItem();
-			this.restartMenuItem.setText("重新开始");
+			this.restartMenuItem.setText(ElkContainer.ACTION.RESTART);
 			this.restartMenuItem.setFont(new Font(ElkContainer.FONT_STYLE, 0, 14));
 			this.restartMenuItem.setAccelerator(KeyStroke.getKeyStroke(114, 0, false));
 			this.restartMenuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if (MainFrame.this.restartMenuItem.getText() == "重新开始") {
+					if (MainFrame.this.restartMenuItem.getText() == ElkContainer.ACTION.RESTART) {
 						MainFrame.this.centerPanel.getElkMainPanel().setMission(0);
 						MainFrame.this.score = 0;
 					} else if (MainFrame.this.restartMenuItem.getText() == "进入下一关") {
@@ -313,7 +310,7 @@ public class MainFrame extends javax.swing.JFrame {
 							MainFrame.this.centerPanel.getElkMainPanel().getF().getSize(),
 							MainFrame.this.centerPanel.getElkMainPanel().getF().getDegree());
 					MainFrame.this.choiceMenu.setEnabled(true);
-					MainFrame.this.restartMenuItem.setText("重新开始");
+					MainFrame.this.restartMenuItem.setText(ElkContainer.ACTION.RESTART);
 				}
 			});
 		}
@@ -336,7 +333,7 @@ public class MainFrame extends javax.swing.JFrame {
 					MainFrame.this.choiceMenu.setEnabled(true);
 					MainFrame.this.continueMenuItem.setEnabled(false);
 					MainFrame.this.restartMenuItem.setEnabled(true);
-					MainFrame.this.listMenuItem.setEnabled(true);
+					MainFrame.this.reListMenuItem.setEnabled(true);
 					MainFrame.this.giveUpMenuItem.setEnabled(true);
 				}
 			});
@@ -394,26 +391,25 @@ public class MainFrame extends javax.swing.JFrame {
 	private JMenuItem missionMenuItem = null;
 
 	private JMenuItem getHelpMenuItem() {
-		if (this.helpMenuItem == null) {
-			this.helpMenuItem = new JMenuItem();
-			this.helpMenuItem.setFont(new Font(ElkContainer.FONT_STYLE, 0, 14));
-			this.helpMenuItem.setText("提示");
-			this.helpMenuItem.addActionListener(new ActionListener() {
+		if (this.promptMenuItem == null) {
+			this.promptMenuItem = new JMenuItem();
+			this.promptMenuItem.setFont(new Font(ElkContainer.FONT_STYLE, 0, 14));
+			this.promptMenuItem.setText("提示");
+			this.promptMenuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					Flag.bool = true;
+					MainFrame.this.centerPanel.getElkMainPanel().prompt();
 				}
 			});
 		}
-		return this.helpMenuItem;
+		return this.promptMenuItem;
 	}
 
 	private void gameFinished(MouseEvent e) {
 		this.maxMission = 10;
-		Flag.bool = false;
+		f.setPromptflag(false);
 		try {
 			this.centerPanel.getElkMainPanel().doIt(e);
 		} catch (ClickOutOfBoardException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		if (this.centerPanel.getElkMainPanel().getF().isNull()) {
@@ -421,9 +417,7 @@ public class MainFrame extends javax.swing.JFrame {
 			this.giveUpMenuItem.setEnabled(false);
 			this.choiceMenu.setEnabled(false);
 
-			this.score =
-
-			(TimeCtroller.getTimeProgressBar().getValue()
+			this.score = (TimeCtroller.getTimeProgressBar().getValue()
 					+ this.centerPanel.getElkMainPanel().getF().countHowManyLast() * 13 + this.score);
 
 			if (this.centerPanel.getElkMainPanel().getMission() != this.maxMission) {
@@ -432,17 +426,15 @@ public class MainFrame extends javax.swing.JFrame {
 				CardLayout card = (CardLayout) this.centerPanel.getLayout();
 				card.show(this.centerPanel, this.centerPanel.getNextPanel().getName());
 			} else if (this.centerPanel.getElkMainPanel().getMission() == this.maxMission) {
-				getRestartMenuItem().setText("您的分数是 " + this.score + ". 重新开始");
 				this.centerPanel.getElkMainPanel().setMission(0);
 				this.score = 0;
-
 				this.centerPanel.getElkMainPanel().getTimeCtrl().stopButton();
 			}
 		}
 	}
 
 	private void giveUp(ActionEvent e) {
-		getRestartMenuItem().setText("您的分数是 " + this.score + ". 重新开始");
+		getRestartMenuItem().setText(ElkContainer.ACTION.RESTART);
 		this.centerPanel.getElkMainPanel().setMission(0);
 		this.score = 0;
 
@@ -466,7 +458,7 @@ public class MainFrame extends javax.swing.JFrame {
 
 	private void timeOver(PropertyChangeEvent e) {
 		if (e.getNewValue().equals("over")) {
-			getRestartMenuItem().setText("您的分数是 " + this.score + ". 重新开始");
+			getRestartMenuItem().setText(ElkContainer.ACTION.RESTART);
 			this.centerPanel.getElkMainPanel().setMission(0);
 			this.score = 0;
 			this.centerPanel.getElkMainPanel().getTimeCtrl().stopButton();

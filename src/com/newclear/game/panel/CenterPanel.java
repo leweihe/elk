@@ -12,15 +12,15 @@ public class CenterPanel extends JPanel {
 	private static final String PAUSEBACKGROUND = "/flags/backgroundPause.jpg";
 	private static final String ENDBACKGROUND = "/flags/backgroundOver.jpg";
 	private static final String NEXTBACKGROUND = "/flags/backgroundNext.jpg";
-	private ElkMainPanel elkMainPanel = null;
-	private JPanel startPanel = null;
-	private JPanel pausePanel = null;
-	private JPanel endPanel = null;
-	private JPanel nextPanel = null;
-	private JLabel nextLabel = null;
-	private JLabel startLabel = null;
-	private JLabel pauseLabel = null;
-	private JLabel endLabel = null;
+	private ElkMainPanel elkMainPanel;
+	private JPanel startPanel;
+	private JPanel pausePanel;
+	private JPanel endPanel;
+	private JPanel nextPanel;
+	private JLabel nextLabel;
+	private JLabel startLabel;
+	private JLabel pauseLabel;
+	private JLabel endLabel;
 
 	public CenterPanel() {
 		initialize();

@@ -23,15 +23,15 @@ public class Flag {
 	private Point p44 = new Point(0, 0);
 	private Point p33 = new Point(0, 0);
 	private Image[] images;
-	public static boolean bool;
-	private String whichMission;
+	private boolean promptflag;
+	private String missionNum;
 
-	public String getWhichMission() {
-		return this.whichMission;
+	public String getMissionNum() {
+		return this.missionNum;
 	}
 
-	public void setWhichMission(String whichMission) {
-		this.whichMission = whichMission;
+	public void setMissionNum(String missionNum) {
+		this.missionNum = missionNum;
 	}
 
 	public Flag() {
@@ -381,7 +381,7 @@ public class Flag {
 		return false;
 	}
 
-	public boolean cue() throws ClickOutOfBoardException {
+	public boolean hasSolution() throws ClickOutOfBoardException {
 		for (int i = 1; i <= this.size; i++) {
 			for (int j = 1; j <= this.size; j++) {
 				for (int n = 1; n <= this.size; n++) {
@@ -403,7 +403,7 @@ public class Flag {
 	}
 
 	public void goDown() {
-		this.whichMission = "向下";
+		this.missionNum = "向下";
 		for (int i = 1; i <= getSize(); i++) {
 			for (int j = 1; j <= getSize(); j++) {
 				if ((this.array[i][j] == 0) && (this.array[(i - 1)][j] != 0)) {
@@ -416,7 +416,7 @@ public class Flag {
 	}
 
 	public void goUp() {
-		this.whichMission = "向上";
+		this.missionNum = "向上";
 		for (int i = this.size; i >= 1; i--) {
 			for (int j = this.size; j >= 1; j--) {
 				if (((this.array[i][j] == 0 ? 1 : 0) & (this.array[(i + 1)][j] != 0 ? 1 : 0)) != 0) {
@@ -429,7 +429,7 @@ public class Flag {
 	}
 
 	public void goRight() {
-		this.whichMission = "向右";
+		this.missionNum = "向右";
 		for (int i = 1; i <= this.size; i++) {
 			for (int j = 1; j <= this.size; j++) {
 				if (((this.array[i][j] == 0 ? 1 : 0) & (this.array[i][(j - 1)] != 0 ? 1 : 0)) != 0) {
@@ -442,7 +442,7 @@ public class Flag {
 	}
 
 	public void goLeft() {
-		this.whichMission = "向左";
+		this.missionNum = "向左";
 		for (int i = this.size; i >= 1; i--) {
 			for (int j = this.size; j >= 1; j--) {
 				if (((this.array[i][j] == 0 ? 1 : 0) & (this.array[i][(j + 1)] != 0 ? 1 : 0)) != 0) {
@@ -455,7 +455,7 @@ public class Flag {
 	}
 
 	public void inRightLeft() {
-		this.whichMission = "左右向内";
+		this.missionNum = "左右向内";
 		for (int i = 1; i <= this.size; i++) {
 			for (int j = 1; j <= this.size / 2; j++) {
 				if ((this.array[i][j] == 0) && (this.array[i][(j - 1)] != 0)) {
@@ -477,7 +477,7 @@ public class Flag {
 	}
 
 	public void outRightLeft() {
-		this.whichMission = "左右向外";
+		this.missionNum = "左右向外";
 		for (int i = 1; i <= this.size; i++) {
 			for (int j = this.size / 2 + 1; j <= this.size; j++) {
 				if (this.array[i][j] == 0)
@@ -501,7 +501,7 @@ public class Flag {
 	}
 
 	public void outTopBottom() {
-		this.whichMission = "上下 向外";
+		this.missionNum = "上下 向外";
 		for (int i = this.size / 2; i >= 1; i--) {
 			for (int j = 1; j <= this.size; j++) {
 				if (this.array[i][j] == 0)
@@ -525,7 +525,7 @@ public class Flag {
 	}
 
 	public void inTopBottom() {
-		this.whichMission = "上下向内";
+		this.missionNum = "上下向内";
 		for (int i = 1; i <= this.size / 2; i++) {
 			for (int j = 1; j <= this.size; j++) {
 				if ((this.array[i][j] == 0) && (this.array[(i - 1)][j] != 0)) {
@@ -547,14 +547,23 @@ public class Flag {
 	}
 
 	public void in() {
-		this.whichMission = "四面向内";
+		this.missionNum = "四面向内";
 		inTopBottom();
 		inRightLeft();
 	}
 
 	public void out() {
-		this.whichMission = "四面向外";
+		this.missionNum = "四面向外";
 		outRightLeft();
 		outTopBottom();
 	}
+
+	public boolean isPromptflag() {
+		return promptflag;
+	}
+
+	public void setPromptflag(boolean promptflag) {
+		this.promptflag = promptflag;
+	}
+	
 }
