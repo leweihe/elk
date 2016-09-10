@@ -3,6 +3,7 @@ package com.newclear.game.frame;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -111,7 +112,8 @@ public class HelpFrame extends JFrame {
 						HelpFrame.this.jTextPane.setText("了解各国国旗的含义");
 						if (node.getUserObject() == "中国") {
 							HelpFrame.this.jLabel.setText("中国");
-							HelpFrame.this.jLabel.setIcon(new ImageIcon(getClass().getResource("/flags/China-Flag.png")));
+							HelpFrame.this.jLabel
+									.setIcon(new ImageIcon(getClass().getResource("/flags/China-Flag.png")));
 							HelpFrame.this.jTextPane.setText(
 									"五星红旗是《中华人民共和国宪法》规定的中华人民共和国国旗，在1949年7月由曾联松设计。其中红色象征革命；五星呈黄色，有象征中国人为黄种人之意。大星代表中国共产党，四颗小星代表工人、农民、知识分子、民族资产阶级（即原“士、农、工、商”之所谓“四民”，但依共产主义意识形态，顺序被改为“工、农、士、商”）。四颗小星环拱于大星之右，并各有一个角尖正对大星的中心点，象征中国共产党领导下的革命人民大团结和人民对党的拥护。");
 						} else if (node.getUserObject() == "阿根廷") {

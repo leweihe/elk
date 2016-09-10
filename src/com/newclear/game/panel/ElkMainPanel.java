@@ -8,14 +8,11 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import com.newclear.game.frame.ConnectionOrcl;
+import com.newclear.game.exception.ClickOutOfBoardException;
 import com.newclear.game.object.Flag;
 
 public class ElkMainPanel extends JPanel {
@@ -50,53 +47,31 @@ public class ElkMainPanel extends JPanel {
 		initialize();
 	}
 
-	public void insert(String name, int score) throws ClassNotFoundException, SQLException {
-		String sql = "insert into top (name,score) values (?,?)";
-
-		Connection conn = new ConnectionOrcl().getConnection();
-		try {
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, name);
-			ps.setInt(2, score);
-			ps.executeUpdate();
-			conn.close();
-			ps.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	private void initialize() {
 	}
 
 	protected void paintComponent(Graphics g) {
-		if (this.f == null) {
-			return;
-		}
 		try {
-			if (this.f.isRelist()) {
+			if (this.f == null) {
+				return;
+			}
+			if (this.f.shouldReloadBoard()) {
 				reList();
 			}
-		} catch (Exception e2) {
-			e2.printStackTrace();
-		}
-		Point p = this.f.getP1();
-		super.paintComponent(g);
-		try {
+			Point p = this.f.getP1();
+			super.paintComponent(g);
 			g.drawImage(ImageIO.read(getClass().getResource(PLAYBACKGROUND)), -100, -100, this);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		drawMap(g);
-		drawline(g);
-		drawSqual(g, p);
-		if (Flag.bool) {
-			try {
+
+			drawMap(g);
+			drawline(g);
+			drawSqual(g, p);
+			if (Flag.bool) {
 				drawR(g);
 				repaint();
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
+		} catch (IOException | ClickOutOfBoardException e1) {
+			e1.printStackTrace();
+			// TODO add log
 		}
 	}
 
@@ -108,7 +83,7 @@ public class ElkMainPanel extends JPanel {
 		this.mission = mission;
 	}
 
-	private void drawR(Graphics g) throws Exception {
+	private void drawR(Graphics g) throws ClickOutOfBoardException {
 		if (this.f.cue()) {
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setPaint(Color.red);
@@ -215,7 +190,7 @@ public class ElkMainPanel extends JPanel {
 			for (int i = 1; i < this.f.getSize() + 1; i++) {
 				for (int j = 1; j < this.f.getSize() + 1; j++) {
 					int k = this.f.getArray()[i][j];
-					this.g2d.drawImage(this.f.img(k), 50 + j * 50, 50 + i * 50, this);
+					this.g2d.drawImage(this.f.getFlagImg(k), 50 + j * 50, 50 + i * 50, this);
 				}
 			}
 		} catch (IOException e) {
@@ -223,7 +198,7 @@ public class ElkMainPanel extends JPanel {
 		}
 	}
 
-	public void doIt(MouseEvent e) throws Exception {
+	public void doIt(MouseEvent e) throws ClickOutOfBoardException {
 		this.f.setP1(new Point(this.f.transfer(e.getX(), e.getY())));
 		repaint();
 		if (((this.p1.x == 0 ? 1 : 0) & (this.p1.y == 0 ? 1 : 0)) != 0) {
@@ -293,5 +268,5 @@ public class ElkMainPanel extends JPanel {
 	public void setTimeCtrl(TimeCtroller timeCtrl) {
 		this.timeCtrl = timeCtrl;
 	}
-	
+
 }

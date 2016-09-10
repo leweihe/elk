@@ -7,6 +7,9 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
+import com.newclear.game.container.ElkContainer;
+import com.newclear.game.exception.ClickOutOfBoardException;
+
 public class Flag {
 	private int size;
 	private int degree;
@@ -265,9 +268,9 @@ public class Flag {
 		return true;
 	}
 
-	public boolean isEqual(Point p1, Point p2) throws Exception {
+	public boolean isEqual(Point p1, Point p2) throws ClickOutOfBoardException {
 		if ((p1.x == -1) || (p1.y == -1) || (p2.x == -1) || (p2.y == -1)) {
-			throw new Exception();
+			throw new ClickOutOfBoardException();
 		}
 		if (this.array[p1.y][p1.x] == this.array[p2.y][p2.x]) {
 			if ((p1.x == p2.x) && (p1.y == p2.y)) {
@@ -329,7 +332,7 @@ public class Flag {
 		return this.p4;
 	}
 
-	public boolean isMathced(Point p1, Point p2) throws Exception {
+	public boolean isMathced(Point p1, Point p2) throws ClickOutOfBoardException {
 		if ((isEqual(p1, p2))
 				&& ((horizonMatch(p1, p2)) || (verticalMatch(p1, p2)) || (twoCorner(p1, p2)) || (oneCorner(p1, p2)))) {
 			return true;
@@ -337,174 +340,14 @@ public class Flag {
 		return false;
 	}
 
-	private String flagURL(int k) {
-		String s = null;
-		switch (k) {
-		case 0:
-			s = "";
-			break;
-		case 1:
-			s = "/flags/1.png";
-			break;
-		case 2:
-			s = "/flags/2.png";
-			break;
-		case 3:
-			s = "/flags/3.png";
-			break;
-		case 4:
-			s = "/flags/4.png";
-			break;
-		case 5:
-			s = "/flags/5.png";
-			break;
-		case 6:
-			s = "/flags/6.png";
-			break;
-		case 7:
-			s = "/flags/7.png";
-			break;
-		case 8:
-			s = "/flags/8.png";
-			break;
-		case 9:
-			s = "/flags/9.png";
-			break;
-		case 10:
-			s = "/flags/10.png";
-			break;
-		case 11:
-			s = "/flags/11.png";
-			break;
-		case 12:
-			s = "/flags/12.png";
-			break;
-		case 13:
-			s = "/flags/13.png";
-			break;
-		case 14:
-			s = "/flags/14.png";
-			break;
-		case 15:
-			s = "/flags/15.png";
-			break;
-		case 16:
-			s = "/flags/16.png";
-			break;
-		case 17:
-			s = "/flags/17.png";
-			break;
-		case 18:
-			s = "/flags/18.png";
-			break;
-		case 19:
-			s = "/flags/19.png";
-			break;
-		case 20:
-			s = "/flags/20.png";
-			break;
-		case 21:
-			s = "/flags/21.png";
-			break;
-		case 22:
-			s = "/flags/22.png";
-			break;
-		case 23:
-			s = "/flags/23.png";
-			break;
-		case 24:
-			s = "/flags/24.png";
-			break;
-		case 25:
-			s = "/flags/25.png";
-			break;
-		case 26:
-			s = "/flags/26.png";
-			break;
-		case 27:
-			s = "/flags/27.png";
-			break;
-		case 28:
-			s = "/flags/28.png";
-			break;
-		case 29:
-			s = "/flags/29.png";
-			break;
-		case 30:
-			s = "/flags/30.png";
-			break;
-		case 31:
-			s = "/flags/31.png";
-			break;
-		case 32:
-			s = "/flags/32.png";
-			break;
-		case 33:
-			s = "/flags/33.png";
-			break;
-		case 34:
-			s = "/flags/34.png";
-			break;
-		case 35:
-			s = "/flags/35.png";
-			break;
-		case 36:
-			s = "/flags/36.png";
-			break;
-		case 37:
-			s = "/flags/37.png";
-			break;
-		case 38:
-			s = "/flags/38.png";
-			break;
-		case 39:
-			s = "/flags/39.png";
-			break;
-		case 40:
-			s = "/flags/40.png";
-			break;
-		case 41:
-			s = "/flags/41.png";
-			break;
-		case 42:
-			s = "/flags/42.png";
-			break;
-		case 43:
-			s = "/flags/43.png";
-			break;
-		case 44:
-			s = "/flags/44.png";
-			break;
-		case 45:
-			s = "/flags/45.png";
-			break;
-		case 46:
-			s = "/flags/46.png";
-			break;
-		case 47:
-			s = "/flags/47.png";
-			break;
-		case 48:
-			s = "/flags/48.png";
-			break;
-		case 49:
-			s = "/flags/49.png";
-			break;
-		case 50:
-			s = "/flags/50.png";
-		}
-
-		return s;
-	}
-
 	private void readImage() throws IOException {
 		this.images = new Image[25];
 		for (int i = 0; i < 25; i++) {
-			this.images[i] = ImageIO.read(getClass().getResource(flagURL(i + 1)));
+			this.images[i] = ImageIO.read(getClass().getResource(ElkContainer.IMG_FOLDER_PATH + (i + 1) + ".png"));
 		}
 	}
 
-	public Image img(int k) throws IOException {
+	public Image getFlagImg(int k) throws IOException {
 		if (k == 0) {
 			return null;
 		}
@@ -512,7 +355,7 @@ public class Flag {
 		return img;
 	}
 
-	public boolean isRelist() throws Exception {
+	public boolean shouldReloadBoard() throws ClickOutOfBoardException {
 		int a = 0;
 		for (int i = 1; i <= this.size; i++) {
 			for (int j = 1; j <= this.size; j++) {
@@ -538,7 +381,7 @@ public class Flag {
 		return false;
 	}
 
-	public boolean cue() throws Exception {
+	public boolean cue() throws ClickOutOfBoardException {
 		for (int i = 1; i <= this.size; i++) {
 			for (int j = 1; j <= this.size; j++) {
 				for (int n = 1; n <= this.size; n++) {
