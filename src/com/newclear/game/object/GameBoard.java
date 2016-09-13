@@ -2,7 +2,10 @@ package com.newclear.game.object;
 
 import java.awt.Image;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Random;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 
@@ -16,14 +19,6 @@ public class GameBoard {
     private Image[] images;
     private boolean promptflag;
     private String missionNum;
-
-    public String getMissionNum() {
-        return this.missionNum;
-    }
-
-    public void setMissionNum(String missionNum) {
-        this.missionNum = missionNum;
-    }
 
     public GameBoard() {
         try {
@@ -39,53 +34,6 @@ public class GameBoard {
         setDifficality(size, degree);
     }
 
-    public void initGameBoard() {
-        if (this.size != null && this.degree != null) {
-            setDifficality(this.size, this.degree);
-            this.array = new Integer[this.size + 2][this.size + 2];
-        }
-    }
-
-    public int getDegree() {
-        return this.degree;
-    }
-
-    public void setDegree(int degree) {
-        this.degree = degree;
-    }
-
-    public Integer[][] getArray() {
-        return array;
-    }
-
-    public void setArray(Integer[][] array) {
-        this.array = array;
-    }
-
-    public int getSize() {
-        return this.size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public boolean canRemove() {
-        return false;
-    }
-
-    public int countHowManyLast() {
-        int last = 0;
-        for (int i = 1; i < this.array.length - 1; i++) {
-            for (int j = 1; j < this.array.length - 1; j++) {
-                if (this.array[i][j] == 0) {
-                    last++;
-                }
-            }
-        }
-        return last;
-    }
-
     public void setDifficality(int size, int degree) {
         this.size = size;
         this.degree = degree;
@@ -94,12 +42,12 @@ public class GameBoard {
     }
 
     public Integer[][] reloadGameBoard(Integer[][] array) {
-        Integer[] array1 = new Integer[(array.length - 2) * (array.length - 2)];
+        Integer[] tmpArray = new Integer[(array.length - 2) * (array.length - 2)];
         int n = 0;
 
         for (int i = 1; i < array.length - 1; i++) {
             for (int j = 1; j < array.length - 1; j++) {
-                array1[n] = array[i][j];
+                tmpArray[n] = array[i][j];
                 n++;
             }
         }
@@ -107,18 +55,18 @@ public class GameBoard {
         for (int i = 0; i < this.size * this.size; i++) {
             int x1 = new Random().nextInt(this.size * this.size);
             int x2 = i;
-            if ((array1[x1] != 0) && (array1[x2] != 0)) {
-                int y1 = array1[x1];
-                int y2 = array1[x2];
-                array1[x1] = y2;
-                array1[x2] = y1;
+            if ((tmpArray[x1] != 0) && (tmpArray[x2] != 0)) {
+                int y1 = tmpArray[x1];
+                int y2 = tmpArray[x2];
+                tmpArray[x1] = y2;
+                tmpArray[x2] = y1;
             }
         }
 
         n = 0;
         for (int i = 0; i < this.size; i++) {
             for (int j = 0; j < this.size; j++) {
-                array[(i + 1)][(j + 1)] = array1[n];
+                array[(i + 1)][(j + 1)] = tmpArray[n];
                 n++;
             }
         }
@@ -157,19 +105,7 @@ public class GameBoard {
     }
 
     public boolean hasGameFinished() {
-        int a = 0;
-        for (int i = 1; i <= this.size; i++) {
-            for (int j = 1; j <= this.size; j++) {
-                if (this.array[i][j] == 0) {
-                    a++;
-                    if (a == this.size * this.size) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
+        return Stream.of(this.array).flatMap(Arrays::stream).filter(n -> n != 0).count() == 0;
     }
 
     public Square transferSquare(int x, int y) {
@@ -212,13 +148,11 @@ public class GameBoard {
         return true;
     }
 
-    public boolean isValueEqual(Square p1, Square p2) throws ClickOutOfBoardException {
-        if ((p1.x == -1) || (p1.y == -1) || (p2.x == -1) || (p2.y == -1)) {
-            throw new ClickOutOfBoardException();
-        }
-        if ((p1.x == p2.x) && (p1.y == p2.y)) {
+    public boolean isValueEqual(Square p1, Square p2) {
+        if ((p1.x == p2.x) && (p1.y == p2.y))
             return false;
-        }
+        if (p1.getValue(array) <= 0 || p2.getValue(array) <= 0)
+            return false;
         return p1.getValue(array) == p2.getValue(array);
     }
 
@@ -285,8 +219,7 @@ public class GameBoard {
             for (int j = 1; j <= this.size; j++) {
                 for (int n = 1; n <= this.size; n++) {
                     for (int m = 1; m <= this.size; m++) {
-                        if ((isMathced(new Square(i, j), new Square(m, n))) && (this.array[j][i] != 0) && (this.array[m][n] != 0)
-                                && (this.array[j][i] == this.array[m][n])) {
+                        if (isMathced(new Square(i, j), new Square(m, n))) {
                             return true;
                         }
                     }
@@ -460,4 +393,39 @@ public class GameBoard {
         this.promptflag = promptflag;
     }
 
+    public int getDegree() {
+        return this.degree;
+    }
+
+    public void setDegree(int degree) {
+        this.degree = degree;
+    }
+
+    public Integer[][] getArray() {
+        return array;
+    }
+
+    public void setArray(Integer[][] array) {
+        this.array = array;
+    }
+
+    public int getSize() {
+        return this.size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public boolean canRemove() {
+        return false;
+    }
+
+    public String getMissionNum() {
+        return this.missionNum;
+    }
+
+    public void setMissionNum(String missionNum) {
+        this.missionNum = missionNum;
+    }
 }

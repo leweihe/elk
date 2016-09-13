@@ -23,8 +23,6 @@ public class ElkMainPanel extends JPanel {
     private Graphics2D g2d;
     private Square tmpSquare1;
     private Square tmpSquare2;
-    private Square p11;
-    private Square p22;
     private GameBoard f;
     private Integer[][] array;
     private SouthPanel southPanel;
@@ -58,15 +56,15 @@ public class ElkMainPanel extends JPanel {
             if (this.f == null) {
                 return;
             }
-            // if (!this.f.hasSolution()) {
-            // reloadBoard();
-            // }
+            if (!this.f.hasSolution()) {
+                reloadBoard();
+            }
             super.paintComponent(g);
             g.drawImage(ImageIO.read(getClass().getResource(PLAYBACKGROUND)), -100, -100, this);
 
             drawMap(g);
             // drawline(g);
-            drawSqual(g, null);
+            // drawSqual(g, null);
             if (f.isPromptflag()) {
                 drawPromptBox(g);
                 repaint();
@@ -94,59 +92,30 @@ public class ElkMainPanel extends JPanel {
         }
     }
 
-    public void drawline(Graphics g) {
+    public void drawline(Graphics g, Square s1, Square s2) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(4.0F));
-        if (((this.p11.x != 0 ? 1 : 0) & (this.p11.y != 0 ? 1 : 0)
-                | (this.p22.x == 0 ? 1 : 0) & (this.p22.y != 0 ? 1 : 0)) != 0) {
-            try {
-                if ((this.f.isValueEqual(this.p11, this.p22)) && (this.f.horizonMatch(this.p11, this.p22))) {
-                    g2d.drawLine(this.p22.x * 50 + 75, this.p22.y * 50 + 75, this.p11.x * 50 + 75,
-                            this.p11.y * 50 + 75);
-                } else if ((this.f.isValueEqual(this.p11, this.p22)) && (this.f.verticalMatch(this.p11, this.p22))) {
-                    g2d.drawLine(this.p22.x * 50 + 75, this.p22.y * 50 + 75, this.p11.x * 50 + 75,
-                            this.p11.y * 50 + 75);
-                } else if ((this.f.isValueEqual(this.p11, this.p22)) && (this.f.oneCorner(this.p11, this.p22))) {
-                    // g2d.drawLine(this.p22.x * 50 + 75, this.p22.y * 50 + 75, this.f.getP33().x * 50 + 75,
-                    // this.f.getP33().y * 50 + 75);
-                    // g2d.drawLine(this.p11.x * 50 + 75, this.p11.y * 50 + 75, this.f.getP33().x * 50 + 75,
-                    // this.f.getP33().y * 50 + 75);
-                    // TODO how to pass the point to here?
-                } else if ((this.f.isValueEqual(this.p11, this.p22)) && (this.f.twoCorner(this.p11, this.p22))) {
-                    // onec(this.p22, this.f.getP3(), g2d);
-                    // g2d.drawLine(this.p11.x * 50 + 75, this.p11.y * 50 + 75, this.f.getP3().x * 50 + 75,
-                    // this.f.getP3().y * 50 + 75);
-                    // TODO how to pass the point to here?
-                }
-                this.p11.x = 0;
-                this.p11.y = 0;
-                this.p22.x = 0;
-                this.p22.y = 0;
-                if (this.mission == 1) {
-                    this.f.goDown();
-                } else if (this.mission == 2) {
-                    this.f.goUp();
-                } else if (this.mission == 3) {
-                    this.f.goRight();
-                } else if (this.mission == 4) {
-                    this.f.goLeft();
-                } else if (this.mission == 5) {
-                    this.f.inRightLeft();
-                } else if (this.mission == 6) {
-                    this.f.outRightLeft();
-                } else if (this.mission == 7) {
-                    this.f.inTopBottom();
-                } else if (this.mission == 8) {
-                    this.f.outTopBottom();
-                } else if (this.mission == 9) {
-                    this.f.in();
-                } else if (this.mission == 10) {
-                    this.f.out();
-                }
-                repaint();
-            } catch (Exception e) {
-                e.printStackTrace();
+        if (((s1.x != 0 ? 1 : 0) & (s1.y != 0 ? 1 : 0)
+                | (s2.x == 0 ? 1 : 0) & (s2.y != 0 ? 1 : 0)) != 0) {
+            if ((this.f.isValueEqual(s1, s2)) && (this.f.horizonMatch(s1, s2))) {
+                g2d.drawLine(s2.x * 50 + 75, s2.y * 50 + 75, s1.x * 50 + 75,
+                        s1.y * 50 + 75);
+            } else if ((this.f.isValueEqual(s1, s2)) && (this.f.verticalMatch(s1, s2))) {
+                g2d.drawLine(s2.x * 50 + 75, s2.y * 50 + 75, s1.x * 50 + 75,
+                        s1.y * 50 + 75);
+            } else if ((this.f.isValueEqual(s1, s2)) && (this.f.oneCorner(s1, s2))) {
+                // g2d.drawLine(s2.x * 50 + 75, s2.y * 50 + 75, this.f.getP33().x * 50 + 75,
+                // this.f.getP33().y * 50 + 75);
+                // g2d.drawLine(s1.x * 50 + 75, s1.y * 50 + 75, this.f.getP33().x * 50 + 75,
+                // this.f.getP33().y * 50 + 75);
+                // TODO how to pass the point to here?
+            } else if ((this.f.isValueEqual(s1, s2)) && (this.f.twoCorner(s1, s2))) {
+                // onec(s2, this.f.getP3(), g2d);
+                // g2d.drawLine(s1.x * 50 + 75, s1.y * 50 + 75, this.f.getP3().x * 50 + 75,
+                // this.f.getP3().y * 50 + 75);
+                // TODO how to pass the point to here?
             }
+            repaint();
         }
     }
 
@@ -159,21 +128,6 @@ public class ElkMainPanel extends JPanel {
     }
 
     private boolean drawSqual(Graphics g, Square p1) {
-        Graphics2D g2d = (Graphics2D) g;
-        g.setFont(new Font(ElkContainer.FONT_STYLE, 1, 22));
-        String drawStr = "AMANI NAKUPENDA NAKUPENDA WE WE";
-        g.drawString(drawStr, 50, 50);
-        if (this.f.getMissionNum() != null) {
-            g.setFont(new Font(ElkContainer.FONT_STYLE, 0, 14));
-            if (this.mission != 0) {
-                String drawMission = "这是您的第" + this.mission + "关 ,是" + this.f.getMissionNum() + "飞的!";
-                g.drawString(drawMission, 90, 90);
-            } else {
-                String drawMission = "这是第" + this.mission + "关 ,是最难的一关!";
-                g.drawString(drawMission, 90, 90);
-            }
-        }
-
         if (p1 == null) {
             return false;
         }
@@ -189,18 +143,30 @@ public class ElkMainPanel extends JPanel {
         return true;
     }
 
-    public void drawMap(Graphics g) {
-        this.g2d = ((Graphics2D) g);
-        try {
-            for (int i = 1; i < this.f.getSize() + 1; i++) {
-                for (int j = 1; j < this.f.getSize() + 1; j++) {
-                    int k = this.f.getArray()[i][j];
-                    Square square = new Square(j, i);
-                    this.g2d.drawImage(this.f.getFlagImg(k), square.getPositX(), square.getPositY(), this);
-                }
+    private void drawText(Graphics g) {
+        g.setFont(new Font(ElkContainer.FONT_STYLE, 1, 22));
+        String drawStr = "AMANI NAKUPENDA NAKUPENDA WE WE";
+        g.drawString(drawStr, 50, 50);
+        if (this.f.getMissionNum() != null) {
+            g.setFont(new Font(ElkContainer.FONT_STYLE, 0, 14));
+            if (this.mission != 0) {
+                String drawMission = "这是您的第" + this.mission + "关 ,是" + this.f.getMissionNum() + "飞的!";
+                g.drawString(drawMission, 90, 90);
+            } else {
+                String drawMission = "这是第" + this.mission + "关 ,是最难的一关!";
+                g.drawString(drawMission, 90, 90);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+    }
+
+    public void drawMap(Graphics g) throws IOException {
+        this.g2d = ((Graphics2D) g);
+        for (int i = 1; i < this.f.getSize() + 1; i++) {
+            for (int j = 1; j < this.f.getSize() + 1; j++) {
+                int k = this.f.getArray()[i][j];
+                Square square = new Square(j, i);
+                this.g2d.drawImage(this.f.getFlagImg(k), square.getPositX(), square.getPositY(), this);
+            }
         }
     }
 

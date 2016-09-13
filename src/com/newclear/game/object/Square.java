@@ -6,9 +6,6 @@ public class Square {
     public int x;
     public int y;
     private boolean isFlagImg;
-    private int positX;
-    private int positY;
-    private int value;
 
     public Square() {
         this(0, 0);
@@ -43,16 +40,8 @@ public class Square {
         return this.x * 50 + 50;
     }
 
-    public void setPositX(int positX) {
-        this.positX = positX;
-    }
-
     public int getPositY() {
         return this.y * 50 + 50;
-    }
-
-    public void setPositY(int positY) {
-        this.positY = positY;
     }
 
     public int getValue(Integer[][] array) {
