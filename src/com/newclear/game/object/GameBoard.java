@@ -1,7 +1,6 @@
 package com.newclear.game.object;
 
 import java.awt.Image;
-import java.awt.Point;
 import java.io.IOException;
 import java.util.Random;
 
@@ -14,14 +13,6 @@ public class GameBoard {
     private Integer size;
     private Integer degree;
     private Integer[][] array;
-    private Point p1;
-    private Point p2;
-    private Point p3;
-    private Point p4;
-    private Point p11 = new Point(0, 0);
-    private Point p22 = new Point(0, 0);
-    private Point p33 = new Point(0, 0);
-    private Point p44 = new Point(0, 0);
     private Image[] images;
     private boolean promptflag;
     private String missionNum;
@@ -55,60 +46,12 @@ public class GameBoard {
         }
     }
 
-    public Point getP11() {
-        return p11;
-    }
-
-    public void setP11(Point p11) {
-        this.p11 = p11;
-    }
-
-    public Point getP22() {
-        return p22;
-    }
-
-    public void setP22(Point p22) {
-        this.p22 = p22;
-    }
-
-    public Point getP44() {
-        return this.p44;
-    }
-
-    public void setP44(Point p44) {
-        this.p44 = p44;
-    }
-
-    public Point getP33() {
-        return this.p33;
-    }
-
-    public void setP33(Point p33) {
-        this.p33 = p33;
-    }
-
     public int getDegree() {
         return this.degree;
     }
 
     public void setDegree(int degree) {
         this.degree = degree;
-    }
-
-    public Point getP2() {
-        return this.p2;
-    }
-
-    public void setP2(Point p2) {
-        this.p2 = p2;
-    }
-
-    public Point getP1() {
-        return this.p1;
-    }
-
-    public void setP1(Point p1) {
-        this.p1 = p1;
     }
 
     public Integer[][] getArray() {
@@ -229,25 +172,21 @@ public class GameBoard {
         return false;
     }
 
-    public Point transferPoint(int x, int y) {
+    public Square transferSquare(int x, int y) {
         int i = x / 50 - 1;
         int j = y / 50 - 1;
         if ((i <= 0) || (i >= this.size + 2) || (j <= 0) || (j >= this.size + 2)) {
-            return new Point(-1, -1);
+            return new Square(-1, -1);
         }
-        return new Point(i, j);
+        return new Square(i, j);
     }
 
-    public boolean remove(Point p1, Point p2, boolean b) {
-        if (b) {
-            this.array[p1.y][p1.x] = 0;
-            this.array[p2.y][p2.x] = 0;
-            return true;
-        }
-        return false;
+    public void remove(Square p1, Square p2) {
+        this.array[p1.y][p1.x] = 0;
+        this.array[p2.y][p2.x] = 0;
     }
 
-    public boolean verticalMatch(Point p1, Point p2) {
+    public boolean verticalMatch(Square p1, Square p2) {
         if (p1.x != p2.x)
             return false;
         if (Math.abs(p1.y - p2.y) == 1)
@@ -260,7 +199,7 @@ public class GameBoard {
         return true;
     }
 
-    public boolean horizonMatch(Point p1, Point p2) {
+    public boolean horizonMatch(Square p1, Square p2) {
         if (p1.y != p2.y)
             return false;
         if (Math.abs(p1.x - p2.x) == 1)
@@ -273,30 +212,26 @@ public class GameBoard {
         return true;
     }
 
-    public boolean isEqual(Point p1, Point p2) throws ClickOutOfBoardException {
+    public boolean isValueEqual(Square p1, Square p2) throws ClickOutOfBoardException {
         if ((p1.x == -1) || (p1.y == -1) || (p2.x == -1) || (p2.y == -1)) {
             throw new ClickOutOfBoardException();
         }
-        if (this.array[p1.y][p1.x] == this.array[p2.y][p2.x]) {
-            if ((p1.x == p2.x) && (p1.y == p2.y)) {
-                return false;
-            }
-            return true;
+        if ((p1.x == p2.x) && (p1.y == p2.y)) {
+            return false;
         }
-        return false;
+        return p1.getValue(array) == p2.getValue(array);
     }
 
-    public boolean twoCorner(Point p1, Point p2) {
+    public boolean twoCorner(Square p1, Square p2) {
         int x = 0;
         int y = 0;
-        Point p3 = new Point(p1.x, y);
-        Point p4 = new Point(x, p1.y);
+        Square p3 = new Square(p1.x, y);
+        Square p4 = new Square(x, p1.y);
         for (int i = 0; i < this.size + 2; i++)
             if (this.array[p3.y][p3.x] != 0) {
                 p3.y += 1;
             } else {
                 if ((verticalMatch(p1, p3)) && (oneCorner(p3, p2))) {
-                    this.p3 = p3;
                     return true;
                 }
                 p3.y += 1;
@@ -306,7 +241,6 @@ public class GameBoard {
                 p4.x += 1;
             } else {
                 if ((horizonMatch(p1, p4)) && (oneCorner(p4, p2))) {
-                    this.p3 = p4;
                     return true;
                 }
                 p4.x += 1;
@@ -314,35 +248,21 @@ public class GameBoard {
         return false;
     }
 
-    public boolean oneCorner(Point p1, Point p2) {
-        Point p3 = new Point(p1.x, p2.y);
-        Point p4 = new Point(p2.x, p1.y);
+    public boolean oneCorner(Square p1, Square p2) {
+        Square p3 = new Square(p1.x, p2.y);
+        Square p4 = new Square(p2.x, p1.y);
         if ((this.array[p3.y][p3.x] == 0) && (verticalMatch(p1, p3)) && (horizonMatch(p3, p2))) {
-            this.p33 = p3;
             return true;
         }
         if ((this.array[p4.y][p4.x] == 0) && (horizonMatch(p1, p4)) && (verticalMatch(p4, p2))) {
-            this.p33 = p4;
             return true;
         }
 
         return false;
     }
 
-    public Point getP3() {
-        return this.p3;
-    }
-
-    public Point getP4() {
-        return this.p4;
-    }
-
-    public boolean isMathced(Point p1, Point p2) throws ClickOutOfBoardException {
-        if ((isEqual(p1, p2))
-                && ((horizonMatch(p1, p2)) || (verticalMatch(p1, p2)) || (twoCorner(p1, p2)) || (oneCorner(p1, p2)))) {
-            return true;
-        }
-        return false;
+    public boolean isMathced(Square p1, Square p2) throws ClickOutOfBoardException {
+        return isValueEqual(p1, p2) && (horizonMatch(p1, p2) || verticalMatch(p1, p2) || twoCorner(p1, p2) || oneCorner(p1, p2));
     }
 
     private void readImages() throws IOException {
@@ -360,42 +280,12 @@ public class GameBoard {
         return img;
     }
 
-    public boolean shouldReloadBoard() throws ClickOutOfBoardException {
-        int a = 0;
-        for (int i = 1; i <= this.size; i++) {
-            for (int j = 1; j <= this.size; j++) {
-                for (int n = 1; n <= this.size; n++) {
-                    for (int m = 1; m <= this.size; m++) {
-                        p11.x = i;
-                        p11.y = j;
-                        p22.x = n;
-                        p22.y = m;
-                        if (isMathced(p11, p22)) {
-                            if (((this.array[j][i] != 0 ? 1 : 0) & (this.array[m][n] != 0 ? 1 : 0)) != 0) {
-                                a++;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if (a == 0) {
-            return true;
-        }
-
-        return false;
-    }
-
     public boolean hasSolution() throws ClickOutOfBoardException {
         for (int i = 1; i <= this.size; i++) {
             for (int j = 1; j <= this.size; j++) {
                 for (int n = 1; n <= this.size; n++) {
                     for (int m = 1; m <= this.size; m++) {
-                        p11.x = i;
-                        p11.y = j;
-                        p22.x = n;
-                        p22.y = m;
-                        if ((isMathced(p11, p22)) && (this.array[j][i] != 0) && (this.array[m][n] != 0)
+                        if ((isMathced(new Square(i, j), new Square(m, n))) && (this.array[j][i] != 0) && (this.array[m][n] != 0)
                                 && (this.array[j][i] == this.array[m][n])) {
                             return true;
                         }
@@ -403,7 +293,6 @@ public class GameBoard {
                 }
             }
         }
-
         return false;
     }
 

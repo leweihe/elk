@@ -66,13 +66,13 @@ public class MainFrame extends javax.swing.JFrame {
             add(this.centerPanel, "Center");
             this.centerPanel.getElkMainPanel().addMouseMotionListener(new MouseAdapter() {
                 public void mouseDragged(MouseEvent e) {
-                    MainFrame.this.gameFinished(e);
+                    MainFrame.this.mouseClickAction(e);
                 }
 
             });
             this.centerPanel.getElkMainPanel().addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
-                    MainFrame.this.gameFinished(e);
+                    MainFrame.this.mouseClickAction(e);
                 }
             });
         }
@@ -399,10 +399,10 @@ public class MainFrame extends javax.swing.JFrame {
         return this.promptMenuItem;
     }
 
-    private void gameFinished(MouseEvent e) {
+    private void mouseClickAction(MouseEvent e) {
         this.maxMission = 10;
         try {
-            this.centerPanel.getElkMainPanel().doIt(e);
+            this.centerPanel.getElkMainPanel().clickEvent(e);
         } catch (ClickOutOfBoardException e1) {
             e1.printStackTrace();
         }
