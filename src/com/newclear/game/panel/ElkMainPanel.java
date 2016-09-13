@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 
 import com.newclear.game.container.ElkContainer;
 import com.newclear.game.exception.ClickOutOfBoardException;
-import com.newclear.game.object.Flag;
+import com.newclear.game.object.GameBoard;
 
 public class ElkMainPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -25,14 +25,14 @@ public class ElkMainPanel extends JPanel {
 	private Point p2 = new Point(0, 0);
 	private Point p11 = new Point(0, 0);
 	private Point p22 = new Point(0, 0);
-	private Flag f = new Flag();
+	private GameBoard f = new GameBoard();
 	private int[][] array = this.f.RandomArr();
 	private SouthPanel southPanel;
 
 	private int mission;
 	private TimeCtroller timeCtrl = new TimeCtroller();
 
-	public Flag getF() {
+	public GameBoard getF() {
 		return this.f;
 	}
 
@@ -57,7 +57,7 @@ public class ElkMainPanel extends JPanel {
 				return;
 			}
 			if (this.f.shouldReloadBoard()) {
-				reList();
+			    reloadBoard();
 			}
 			Point p = this.f.getP1();
 			super.paintComponent(g);
@@ -230,7 +230,7 @@ public class ElkMainPanel extends JPanel {
 		}
 	}
 
-	public void reList() {
+	public void reloadBoard() {
 		this.f.setArray(this.f.reList(this.array));
 		repaint();
 	}
@@ -241,7 +241,7 @@ public class ElkMainPanel extends JPanel {
 	}
 
 	public void start(int size, int degree) {
-		this.f = new Flag();
+		this.f = new GameBoard();
 		this.f.setDifficality(size, degree);
 		this.array = this.f.RandomArr();
 		this.timeCtrl.startButton();
@@ -250,7 +250,7 @@ public class ElkMainPanel extends JPanel {
 
 	public void reStart(int size, int degree) {
 		gameOver();
-		this.f = new Flag();
+		this.f = new GameBoard();
 		this.f.setDifficality(size, degree);
 		this.array = this.f.RandomArr();
 		this.timeCtrl.startButton();

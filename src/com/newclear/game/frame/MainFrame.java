@@ -20,7 +20,7 @@ import javax.swing.KeyStroke;
 
 import com.newclear.game.container.ElkContainer;
 import com.newclear.game.exception.ClickOutOfBoardException;
-import com.newclear.game.object.Flag;
+import com.newclear.game.object.GameBoard;
 import com.newclear.game.panel.CenterPanel;
 import com.newclear.game.panel.TimeCtroller;
 
@@ -43,7 +43,6 @@ public class MainFrame extends javax.swing.JFrame {
 	private JMenuItem giveUpMenuItem;
 
 	private CenterPanel centerPanel;
-	private int score;
 	private int maxMission;
 
 	public static void main(String[] args) {
@@ -280,7 +279,7 @@ public class MainFrame extends javax.swing.JFrame {
 			this.reListMenuItem.setAccelerator(KeyStroke.getKeyStroke(116, 0, false));
 			this.reListMenuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					MainFrame.this.centerPanel.getElkMainPanel().reList();
+					MainFrame.this.centerPanel.getElkMainPanel().reloadBoard();
 				}
 			});
 		}
@@ -297,7 +296,6 @@ public class MainFrame extends javax.swing.JFrame {
 				public void actionPerformed(ActionEvent e) {
 					if (MainFrame.this.restartMenuItem.getText() == ElkContainer.ACTION.RESTART) {
 						MainFrame.this.centerPanel.getElkMainPanel().setMission(0);
-						MainFrame.this.score = 0;
 					} else if (MainFrame.this.restartMenuItem.getText() == "进入下一关") {
 						MainFrame.this.centerPanel.getElkMainPanel()
 								.setMission(MainFrame.this.centerPanel.getElkMainPanel().getMission() + 1);
@@ -386,7 +384,7 @@ public class MainFrame extends javax.swing.JFrame {
 		return this.stopMenuItem;
 	}
 
-	Flag f = new Flag();
+	GameBoard f = new GameBoard();
 	private JMenu missionMenu = null;
 	private JMenuItem missionMenuItem = null;
 
@@ -417,9 +415,6 @@ public class MainFrame extends javax.swing.JFrame {
 			this.giveUpMenuItem.setEnabled(false);
 			this.choiceMenu.setEnabled(false);
 
-			this.score = (TimeCtroller.getTimeProgressBar().getValue()
-					+ this.centerPanel.getElkMainPanel().getF().countHowManyLast() * 13 + this.score);
-
 			if (this.centerPanel.getElkMainPanel().getMission() != this.maxMission) {
 				getRestartMenuItem().setText("进入下一关");
 				this.centerPanel.getElkMainPanel().getTimeCtrl().stopButton();
@@ -427,7 +422,6 @@ public class MainFrame extends javax.swing.JFrame {
 				card.show(this.centerPanel, this.centerPanel.getNextPanel().getName());
 			} else if (this.centerPanel.getElkMainPanel().getMission() == this.maxMission) {
 				this.centerPanel.getElkMainPanel().setMission(0);
-				this.score = 0;
 				this.centerPanel.getElkMainPanel().getTimeCtrl().stopButton();
 			}
 		}
@@ -436,10 +430,7 @@ public class MainFrame extends javax.swing.JFrame {
 	private void giveUp(ActionEvent e) {
 		getRestartMenuItem().setText(ElkContainer.ACTION.RESTART);
 		this.centerPanel.getElkMainPanel().setMission(0);
-		this.score = 0;
-
 		this.centerPanel.getElkMainPanel().getTimeCtrl().stopButton();
-		this.score = 0;
 		this.centerPanel.getElkMainPanel().gameOver();
 		CardLayout card = (CardLayout) this.centerPanel.getLayout();
 		card.show(this.centerPanel, this.centerPanel.getEndPanel().getName());
@@ -460,7 +451,6 @@ public class MainFrame extends javax.swing.JFrame {
 		if (e.getNewValue().equals("over")) {
 			getRestartMenuItem().setText(ElkContainer.ACTION.RESTART);
 			this.centerPanel.getElkMainPanel().setMission(0);
-			this.score = 0;
 			this.centerPanel.getElkMainPanel().getTimeCtrl().stopButton();
 			TimeCtroller.getTimeProgressBar().setName("begin");
 			CardLayout card = (CardLayout) this.centerPanel.getLayout();

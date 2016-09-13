@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 import com.newclear.game.container.ElkContainer;
 import com.newclear.game.exception.ClickOutOfBoardException;
 
-public class Flag {
+public class GameBoard {
 	private int size;
 	private int degree;
 	private int[][] array;
@@ -34,7 +34,7 @@ public class Flag {
 		this.missionNum = missionNum;
 	}
 
-	public Flag() {
+	public GameBoard() {
 		setDifficality(this.size, this.degree);
 		this.array = new int[this.size + 2][this.size + 2];
 		try {
@@ -44,7 +44,7 @@ public class Flag {
 		}
 	}
 
-	public Flag(int size, int degree) {
+	public GameBoard(int size, int degree) {
 		this.size = size;
 		this.degree = degree;
 		setDifficality(size, degree);
