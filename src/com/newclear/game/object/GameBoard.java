@@ -4,13 +4,7 @@ import java.awt.Image;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
-<<<<<<< .mine
 import java.util.stream.Stream;
-
-=======
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
->>>>>>> .theirs
 
 import javax.imageio.ImageIO;
 
@@ -24,14 +18,8 @@ public class GameBoard {
     private MissionEnum mission;
 
     private boolean promptflag;
-
-<<<<<<< .mine
     private Integer[][] array;
 
-=======
-
-
->>>>>>> .theirs
     public GameBoard() {
         try {
             readImages();
@@ -229,15 +217,9 @@ public class GameBoard {
     public boolean hasSolution() {
         for (int i = 1; i <= this.size; i++) {
             for (int j = 1; j <= this.size; j++) {
-<<<<<<< .mine
                 for (int m = 1; m <= this.size; m++) {
                     for (int n = 1; m <= this.size; n++) {
                         if (isMathced(new Square(i, j), new Square(m, n))) {
-=======
-                for (int n = 1; n <= this.size; n++) {
-                    for (int m = 1; m <= this.size; m++) {
-                        if (isMathced(new Square(i, j), new Square(m, n))) {
->>>>>>> .theirs
                             return true;
                         }
                     }
@@ -411,7 +393,6 @@ public class GameBoard {
         this.promptflag = promptflag;
     }
 
-<<<<<<< .mine
     public int getDegree() {
         return this.degree;
     }
@@ -447,43 +428,4 @@ public class GameBoard {
     public void setMission(int missionNum) {
         this.mission = Stream.of(MissionEnum.values()).filter(n -> n.getValue() == missionNum).findFirst().get();
     }
-
-=======
-    public int getDegree() {
-        return this.degree;
-    }
-
-    public void setDegree(int degree) {
-        this.degree = degree;
-    }
-
-    public Integer[][] getArray() {
-        return array;
-    }
-
-    public void setArray(Integer[][] array) {
-        this.array = array;
-    }
-
-    public int getSize() {
-        return this.size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public boolean canRemove() {
-        return false;
-    }
-
-    public String getMissionNum() {
-        return this.missionNum;
-    }
-
-    public void setMissionNum(String missionNum) {
-        this.missionNum = missionNum;
-    }
-
->>>>>>> .theirs
 }
