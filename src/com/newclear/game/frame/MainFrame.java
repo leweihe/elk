@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import com.newclear.game.container.ElkContainer;
+import com.newclear.game.container.MissionEnum;
 import com.newclear.game.exception.ClickOutOfBoardException;
 import com.newclear.game.panel.CenterPanel;
 import com.newclear.game.panel.TimeCtroller;
@@ -171,7 +172,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.missionMenuItem.setText("第" + (level + 1) + "关");
         this.missionMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                MainFrame.this.centerPanel.getElkMainPanel().setMission(level);
+                MainFrame.this.centerPanel.getElkMainPanel().getF().setMission(level);
             }
         });
 
@@ -296,10 +297,10 @@ public class MainFrame extends javax.swing.JFrame {
             this.restartMenuItem.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     if (MainFrame.this.restartMenuItem.getText() == ElkContainer.ACTION.RESTART) {
-                        MainFrame.this.centerPanel.getElkMainPanel().setMission(0);
+                        MainFrame.this.centerPanel.getElkMainPanel().getF().setMission(0);
                     } else if (MainFrame.this.restartMenuItem.getText() == "进入下一关") {
-                        MainFrame.this.centerPanel.getElkMainPanel()
-                                .setMission(MainFrame.this.centerPanel.getElkMainPanel().getMission() + 1);
+                        MainFrame.this.centerPanel.getElkMainPanel().getF()
+                                .setMission(MainFrame.this.centerPanel.getElkMainPanel().getF().getMission().getValue() + 1);
                     }
                     MainFrame.this.stopMenuItem.setEnabled(true);
                     MainFrame.this.giveUpMenuItem.setEnabled(true);
@@ -411,13 +412,13 @@ public class MainFrame extends javax.swing.JFrame {
             this.giveUpMenuItem.setEnabled(false);
             this.choiceMenu.setEnabled(false);
 
-            if (this.centerPanel.getElkMainPanel().getMission() != this.maxMission) {
+            if (this.centerPanel.getElkMainPanel().getF().getMission().equals(MissionEnum.ELEVENTH)) {
                 getRestartMenuItem().setText("进入下一关");
                 this.centerPanel.getElkMainPanel().getTimeCtrl().stopButton();
                 CardLayout card = (CardLayout) this.centerPanel.getLayout();
                 card.show(this.centerPanel, this.centerPanel.getNextPanel().getName());
-            } else if (this.centerPanel.getElkMainPanel().getMission() == this.maxMission) {
-                this.centerPanel.getElkMainPanel().setMission(0);
+            } else if (this.centerPanel.getElkMainPanel().getF().getMission().equals(MissionEnum.ELEVENTH)) {
+                this.centerPanel.getElkMainPanel().getF().setMission(0);
                 this.centerPanel.getElkMainPanel().getTimeCtrl().stopButton();
             }
         }
@@ -425,12 +426,12 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void giveUp(ActionEvent e) {
         getRestartMenuItem().setText(ElkContainer.ACTION.RESTART);
-        this.centerPanel.getElkMainPanel().setMission(0);
+        this.centerPanel.getElkMainPanel().getF().setMission(0);
         this.centerPanel.getElkMainPanel().getTimeCtrl().stopButton();
         this.centerPanel.getElkMainPanel().gameOver();
         CardLayout card = (CardLayout) this.centerPanel.getLayout();
         card.show(this.centerPanel, this.centerPanel.getEndPanel().getName());
-        this.centerPanel.getElkMainPanel().setMission(0);
+        this.centerPanel.getElkMainPanel().getF().setMission(0);
         this.easyMenuItem.setEnabled(true);
         this.middleMenuItem.setEnabled(true);
         this.hardMenuItem.setEnabled(true);
@@ -446,7 +447,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void timeOver(PropertyChangeEvent e) {
         if (e.getNewValue().equals("over")) {
             getRestartMenuItem().setText(ElkContainer.ACTION.RESTART);
-            this.centerPanel.getElkMainPanel().setMission(0);
+            this.centerPanel.getElkMainPanel().getF().setMission(0);
             this.centerPanel.getElkMainPanel().getTimeCtrl().stopButton();
             TimeCtroller.getTimeProgressBar().setName("begin");
             CardLayout card = (CardLayout) this.centerPanel.getLayout();
