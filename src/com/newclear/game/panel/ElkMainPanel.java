@@ -21,6 +21,13 @@ public class ElkMainPanel extends JPanel {
     private static final String PLAYBACKGROUND = "/flags/background.jpg";
 
     private Graphics2D g2d;
+<<<<<<< .mine
+
+
+=======
+    private Square tmpSquare1;
+    private Square tmpSquare2;
+>>>>>>> .theirs
     private GameBoard f;
     private Integer[][] array;
     private SouthPanel southPanel;
@@ -135,6 +142,7 @@ public class ElkMainPanel extends JPanel {
         return true;
     }
 
+<<<<<<< .mine
     private void drawText(Graphics g) {
         g.setFont(new Font(ElkContainer.FONT_STYLE, 1, 22));
         String drawStr = "AMANI NAKUPENDA NAKUPENDA WE WE";
@@ -142,6 +150,35 @@ public class ElkMainPanel extends JPanel {
     }
 
     public void drawMap(Graphics g) throws IOException {
+
+
+
+
+
+
+
+
+
+
+=======
+    private void drawText(Graphics g) {
+        g.setFont(new Font(ElkContainer.FONT_STYLE, 1, 22));
+        String drawStr = "AMANI NAKUPENDA NAKUPENDA WE WE";
+        g.drawString(drawStr, 50, 50);
+        if (this.f.getMissionNum() != null) {
+            g.setFont(new Font(ElkContainer.FONT_STYLE, 0, 14));
+            if (this.mission != 0) {
+                String drawMission = "这是您的第" + this.mission + "关 ,是" + this.f.getMissionNum() + "飞的!";
+                g.drawString(drawMission, 90, 90);
+            } else {
+                String drawMission = "这是第" + this.mission + "关 ,是最难的一关!";
+                g.drawString(drawMission, 90, 90);
+            }
+        }
+    }
+
+    public void drawMap(Graphics g) throws IOException {
+>>>>>>> .theirs
         this.g2d = ((Graphics2D) g);
         for (int i = 1; i < this.f.getSize() + 1; i++) {
             for (int j = 1; j < this.f.getSize() + 1; j++) {
