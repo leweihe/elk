@@ -45,7 +45,7 @@ public class Square {
     }
 
     public int getValue(Integer[][] array) {
-        if (x > array.length || y > array.length)
+        if (x > array.length || y > array.length || x < 0 || y < 0)
             return -1;
         return array[y][x];
     }

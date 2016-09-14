@@ -56,9 +56,9 @@ public class ElkMainPanel extends JPanel {
             if (this.f == null) {
                 return;
             }
-            if (!this.f.hasSolution()) {
-                reloadBoard();
-            }
+            // if (!this.f.hasSolution()) {
+            // reloadBoard();
+            // }
             super.paintComponent(g);
             g.drawImage(ImageIO.read(getClass().getResource(PLAYBACKGROUND)), -100, -100, this);
 
